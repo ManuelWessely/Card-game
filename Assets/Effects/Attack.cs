@@ -8,6 +8,16 @@ public class Attack : Effect
     public void Activate(IEffectPlayer player, IEffectReclever enemy)
     {
         enemy.DealDamage(damage);
+        if (enemy is Player)
+        {
+            ScreenShake.instance.EnemyAttack();
+            IconDisplayer.instance.EnemyAttack();
+        }
+        else if (enemy is Enemy)
+        {
+            ScreenShake.instance.PlayerAttack();
+            IconDisplayer.instance.PlayerAttack();
+        }
     }
 
     public string GetDescription()
