@@ -48,7 +48,7 @@ public class PlayerMono : MonoBehaviour
     {
         if (selectedCard)
         {
-            selectedCard.Activate(this.player, enemy.enemy);
+            selectedCard.Activate(this.player, enemy);
             Destroy(selectedCard.gameObject);
         }
     }

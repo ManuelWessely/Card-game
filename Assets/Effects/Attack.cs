@@ -13,7 +13,7 @@ public class Attack : Effect
             ScreenShake.instance.EnemyAttack();
             IconDisplayer.instance.EnemyAttack();
         }
-        else if (enemy is Enemy)
+        else if (enemy is EnemyMono)
         {
             ScreenShake.instance.PlayerAttack();
             IconDisplayer.instance.PlayerAttack();

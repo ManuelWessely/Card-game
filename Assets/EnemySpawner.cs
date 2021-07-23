@@ -5,5 +5,5 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public Transform[] spawnPoints;
-    public Enemy[] enemies;
+    public EnemyMono[] enemies;
 }

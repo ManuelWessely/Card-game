@@ -1,18 +1,56 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class EnemyMono : MonoBehaviour
+public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
 {
 
     public TextMeshPro hpText;
     public TextMeshPro actionText;
-    public Enemy enemy;
-    private void Awake()
+    public int hp;
+    [ShowInInspector]
+    [TypeFilter("GetFilteredTypeList")]
+    public Effect[] effects;
+    public Effect selectedEffect;
+
+    public void Prepare()
     {
-        enemy.gO = this;
+        selectedEffect = SelectEffect();
+        actionText.text = selectedEffect.GetDescription();
+
+    }
+    public Effect SelectEffect()
+    {
+        return effects[UnityEngine.Random.Range(0, effects.Length)];
+    }
+    public IEnumerable<Type> GetFilteredTypeList()
+    {
+        var q = typeof(Effect).Assembly.GetTypes()
+            .Where(x => !x.IsAbstract)
+            .Where(x => !x.IsGenericTypeDefinition)
+            .Where(x => typeof(Effect).IsAssignableFrom(x));
+        return q;
+    }
+
+    public void Activate(EnemyMono enemy, Player player)
+    {
+        selectedEffect.Activate(enemy, player);
+    }
+
+    public void DealDamage(int damage)
+    {
+        hp -= damage;
+        UpdateHealth();
+    }
+
+    public void Heal(int amount)
+    {
+        hp += amount;
+        UpdateHealth();
     }
     // Start is called before the first frame update
     void Start()
@@ -22,17 +60,12 @@ public class EnemyMono : MonoBehaviour
 
     public void UpdateHealth()
     {
-        hpText.text = $"HP: {enemy.hp}";
-    }
-    public void Prepare()
-    {
-        enemy.Prepare();
-        actionText.text = enemy.selectedEffect.GetDescription();
+        hpText.text = $"HP: {hp}";
     }
 
     public void Activate()
     {
-        enemy.Activate(enemy, PlayerMono.instance.player);
+        Activate(this, PlayerMono.instance.player);
     }
 
     private void OnMouseDown()
