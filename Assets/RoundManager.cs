@@ -13,16 +13,17 @@ public class RoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EnemySpawner.instance.SpawnEnemies(3);
         PlayerRound();
     }
     public void PlayerRound()
     {
         CardManager.instance.Draw(4);
-        Component.FindObjectOfType<EnemyMono>().Prepare();
+        EnemySpawner.instance.PrepareEnemies();
     }
-    public void EnemyRound()
+    public async void EnemyRound()
     {
-        Component.FindObjectOfType<EnemyMono>().Activate();
+        await EnemySpawner.instance.ActivateEnemies();
         PlayerRound();
     }
     public void EndRound()

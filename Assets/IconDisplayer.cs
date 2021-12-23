@@ -1,6 +1,8 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class IconDisplayer : MonoBehaviour
@@ -13,26 +15,28 @@ public class IconDisplayer : MonoBehaviour
     {
         instance = this;
     }
-    public void PlayerAttack()
+    public async void PlayerAttack()
     {
         HideAll();
         playerAttack.SetActive(true);
-        StartCoroutine(HideAfterSeconds(playerAttack, .3f));
+        await Task.Delay(300);
+        playerAttack.SetActive(false);
+
     }
-    public void EnemyAttack()
+    public async Task EnemyAttack(Vector3 position)
     {
         HideAll();
         enemyAttack.SetActive(true);
-        StartCoroutine(HideAfterSeconds(enemyAttack, .3f));
+        enemyAttack.transform.position = position+new Vector3(-1, 1);
+        await Task.Delay(300);
+
+        enemyAttack.SetActive(false);
+        await Task.Delay(200);
+
     }
-    public IEnumerator HideAfterSeconds(GameObject gO, float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        gO.SetActive(false);
-    }
+
     public void HideAll()
     {
-        StopAllCoroutines();
         playerAttack.SetActive(false);
         enemyAttack.SetActive(false);
 

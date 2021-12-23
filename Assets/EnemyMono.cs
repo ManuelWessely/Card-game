@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -36,9 +37,9 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
         return q;
     }
 
-    public void Activate(EnemyMono enemy, Player player)
+    public Task Activate(EnemyMono enemy, Player player)
     {
-        selectedEffect.Activate(enemy, player);
+        return selectedEffect.Activate(enemy, player);
     }
 
     public void DealDamage(int damage)
@@ -63,9 +64,9 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
         hpText.text = $"HP: {hp}";
     }
 
-    public void Activate()
+    public Task Activate()
     {
-        Activate(this, PlayerMono.instance.player);
+        return Activate(this, PlayerMono.instance.player);
     }
 
     private void OnMouseDown()
@@ -78,5 +79,10 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
     void Update()
     {
         
+    }
+
+    public Vector3 GetPosition()
+    {
+        return transform.position;
     }
 }

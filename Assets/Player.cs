@@ -15,5 +15,11 @@ public class Player : IEffectPlayer, IEffectReclever
         hp += amount;
         gO.UpdateHp();
     }
+
+    public Vector3 GetPosition()
+    {
+        return Vector3.zero;
+    }
+
     public PlayerMono gO;
 }
