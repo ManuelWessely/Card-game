@@ -6,7 +6,7 @@ using UnityEngine;
 public class Heal : Effect
 {
     public int amount;
-    public async Task Activate(IEffectPlayer player, IEffectReclever enemy)
+    public async Task Activate(IEffectPlayer player, IEffectReciever enemy)
     {
         player.Heal(amount);
     }

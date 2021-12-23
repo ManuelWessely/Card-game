@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -66,5 +67,15 @@ public class CardManager : MonoBehaviour
             DiscardCard(activeCards[0]);
         }
         
+    }
+    public void ShuffleDrawPile()
+    {
+        System.Random rnd = new System.Random();
+        var drawArray=drawPile.ToArray().OrderBy(x => rnd.Next());
+        drawPile = new Stack<Card>();
+        foreach (var item in drawArray)
+        {
+            drawPile.Push(item);
+        }
     }
 }

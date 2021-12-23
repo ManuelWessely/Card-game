@@ -13,13 +13,29 @@ public class CardMono : MonoBehaviour
     public Button button;
     public Card card;
     public Color defaultColor, selectedColor;
-    public Image background;
+    public Image background, cardRim, icon;
     [ShowInInspector]
     public bool Selected { get; private set; }
     [Button]
     public void Init()
     {
         button.onClick.AddListener(() => ToggleSelection());
+        cardRim.color = card.primaryColor;
+        descriptionText.color = card.primaryColor;
+        titleText.color = card.primaryColor;
+        icon.color = card.primaryColor;
+        icon.sprite = card.icon;
+
+        Rect rect = card.icon.rect;
+        if (rect.height<=rect.width)
+        {
+            icon.rectTransform.sizeDelta = new Vector2(100, rect.height / rect.width *100);
+        }
+        else
+        {
+            icon.rectTransform.sizeDelta = new Vector2(rect.width/rect.height*100, 100);
+
+        }
         titleText.text = card.title;
         descriptionText.text = card.GetDescription();
     }
@@ -30,7 +46,7 @@ public class CardMono : MonoBehaviour
         PlayerMono.instance.SelectCard(this);
         if (card.selfActivate)
         {
-            Activate(PlayerMono.instance.player, null);
+            Activate(PlayerMono.instance, null);
         }
     }
     public void Deselect()
@@ -41,7 +57,7 @@ public class CardMono : MonoBehaviour
         PlayerMono.instance.DeselectCard(this);
     }
 
-    public void Activate(IEffectPlayer player, IEffectReclever enemy)
+    public void Activate(IEffectPlayer player, IEffectReciever enemy)
     {
         card.Activate(player, enemy);
         Discard();

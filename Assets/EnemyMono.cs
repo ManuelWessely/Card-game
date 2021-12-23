@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
+public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReciever
 {
 
-    public TextMeshPro hpText;
+    public LazyHealthbar healthBar;
     public TextMeshPro actionText;
+    public GameObject deathParticles;
+    public int maxHp;
+    [ReadOnly]
     public int hp;
     [ShowInInspector]
     [TypeFilter("GetFilteredTypeList")]
@@ -37,7 +40,7 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
         return q;
     }
 
-    public Task Activate(EnemyMono enemy, Player player)
+    public Task Activate(EnemyMono enemy, PlayerMono player)
     {
         return selectedEffect.Activate(enemy, player);
     }
@@ -45,7 +48,18 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
     public void DealDamage(int damage)
     {
         hp -= damage;
+        if (hp<=0)
+        {
+            hp = 0;
+            Die();
+        }
         UpdateHealth();
+    }
+
+    private void Die()
+    {
+        EnemySpawner.instance.EnemyDied(this);
+        Instantiate(deathParticles, transform.position, transform.rotation);
     }
 
     public void Heal(int amount)
@@ -61,12 +75,12 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
 
     public void UpdateHealth()
     {
-        hpText.text = $"HP: {hp}";
+        healthBar.SetHealth(hp, maxHp);
     }
 
     public Task Activate()
     {
-        return Activate(this, PlayerMono.instance.player);
+        return Activate(this, PlayerMono.instance);
     }
 
     private void OnMouseDown()
@@ -84,5 +98,9 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReclever
     public Vector3 GetPosition()
     {
         return transform.position;
+    }
+    private void Awake()
+    {
+        hp = maxHp;
     }
 }

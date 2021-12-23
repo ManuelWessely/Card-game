@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerMono : MonoBehaviour
+public class PlayerMono : MonoBehaviour, IEffectPlayer, IEffectReciever
 {
     public static PlayerMono instance;
-    public Player player;
-    public TextMeshProUGUI hpText;
+    public int hp, maxHp;
+    public LazyHealthbar healthBar;
     private void Awake()
     {
         instance = this;
-        player = new Player();
-        player.hp = 100;
-        player.gO = this;
+        hp = 100;
+        maxHp = 100;
     }
     private void Start()
     {
@@ -22,14 +21,29 @@ public class PlayerMono : MonoBehaviour
     }
     public void UpdateHp()
     {
-        hpText.text = $"HP: {player.hp}";
+        healthBar.SetHealth(hp, maxHp);
     }
-    public  void Heal(int amount)
+    public void Heal(int amount)
     {
-        player.hp += amount;
+
+        hp += amount;
+        if (hp>maxHp)
+        {
+            hp = maxHp;
+        }
         UpdateHp();
     }
+    public void DealDamage(int damage)
+    {
+        hp -= damage;
 
+        if (hp<=0)
+        {
+            hp = 0;
+            print("Player Died");
+        }
+        UpdateHp();
+    }
     public CardMono selectedCard;
     public void SelectCard(CardMono card)
     {
@@ -48,8 +62,15 @@ public class PlayerMono : MonoBehaviour
     {
         if (selectedCard)
         {
-            selectedCard.Activate(this.player, enemy);
+            selectedCard.Activate(this, enemy);
             Destroy(selectedCard.gameObject);
         }
+    }
+
+
+
+    public Vector3 GetPosition()
+    {
+        return Vector3.zero;
     }
 }

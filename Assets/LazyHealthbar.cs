@@ -18,6 +18,13 @@ public class LazyHealthbar : MonoBehaviour
     private float speed;
     private float lastValue;
     Mode mode=Mode.Static;
+
+    public void SetHealth(int health, int maxHealth)
+    {
+        SetValue((float)health / maxHealth);
+    }
+
+
     [Button]
     public void SetValue(float value)
     {

@@ -6,10 +6,10 @@ using UnityEngine;
 public class Attack : Effect
 {
     public int damage;
-    public async Task Activate(IEffectPlayer player, IEffectReclever enemy)
+    public async Task Activate(IEffectPlayer player, IEffectReciever enemy)
     {
         enemy.DealDamage(damage);
-        if (enemy is Player)
+        if (enemy is PlayerMono)
         {
             Debug.Log("Attack");
             ScreenShake.instance.EnemyAttack();

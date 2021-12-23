@@ -69,6 +69,13 @@ public class EnemySpawner : MonoBehaviour
         return Instantiate(spawnableEnemies[UnityEngine.Random.Range(0, spawnableEnemies.Length)], spawnPoint.position, spawnPoint.rotation, transform);
     }
 
+    public void EnemyDied(EnemyMono enemyMono)
+    {
+        var index=Array.FindIndex(enemies, x => x == enemyMono);
+        FreeSpot(index);
+        Destroy(enemyMono.gameObject);
+    }
+
     public bool TryOccupySpot(out int index)
     {
         for (int i = 0; i < spotsOccupied.Length; i++)
@@ -82,5 +89,9 @@ public class EnemySpawner : MonoBehaviour
         }
         index= - 1;
         return false;
+    }
+    public void FreeSpot(int index)
+    {
+        spotsOccupied[index] = false;
     }
 }

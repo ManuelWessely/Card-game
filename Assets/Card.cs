@@ -14,6 +14,8 @@ public class Card : SerializedScriptableObject
     [TypeFilter("GetFilteredTypeList")]
     public Effect[] effects;
     public bool selfActivate;
+    public Color primaryColor;
+    public Sprite icon;
 
     public string GetDescription()
     {
@@ -24,7 +26,7 @@ public class Card : SerializedScriptableObject
         }
         return s;
     }
-    public void Activate(IEffectPlayer player, IEffectReclever enemy)
+    public void Activate(IEffectPlayer player, IEffectReciever enemy)
     {
         foreach (var item in effects)
         {
