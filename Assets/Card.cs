@@ -13,7 +13,6 @@ public class Card : SerializedScriptableObject
     [ShowInInspector]
     [TypeFilter("GetFilteredTypeList")]
     public Effect[] effects;
-    public bool selfActivate;
     public Color primaryColor;
     public Sprite icon;
 

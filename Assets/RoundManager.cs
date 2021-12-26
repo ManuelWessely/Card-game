@@ -1,35 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RoundManager : MonoBehaviour
 {
-    public Button endTurnButton;
+    public int segments;
+    public Timeline timeline;
+    // Start is called before the first frame update
+    public CardPlay playerCard;
+    public static RoundManager instance;
+
     private void Awake()
     {
-        endTurnButton.onClick.AddListener(EndRound);
+        instance = this;
     }
-    // Start is called before the first frame update
     void Start()
     {
-        EnemySpawner.instance.SpawnEnemies(3);
-        PlayerRound();
+        timeline.Segments = 6;
+        StartCoroutine(GameCoroutine());
     }
-    public void PlayerRound()
+
+    // Update is called once per frame
+    void Update()
     {
-        CardManager.instance.Draw(4);
-        EnemySpawner.instance.PrepareEnemies();
+        
     }
-    public async void EnemyRound()
+   
+    IEnumerator GameCoroutine()
     {
-        await EnemySpawner.instance.ActivateEnemies();
-        PlayerRound();
+        while (true)
+        {
+            CardManager.instance.Draw(4);
+            yield return RoundCoroutine();
+            CardManager.instance.DiscardAll();
+        }
     }
-    public void EndRound()
+    IEnumerator RoundCoroutine()
     {
-        CardManager.instance.DiscardAll();
-        PlayerMono.instance.selectedCard = null;
-        EnemyRound();
+        for (int i = 0; i < segments+1; i++)
+        {
+            timeline.MoveCursor(i);
+            yield return new WaitWhile(()=>playerCard==null);
+            playerCard.Activate();
+            playerCard = null;
+        }
     }
 }

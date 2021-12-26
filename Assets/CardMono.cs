@@ -44,10 +44,6 @@ public class CardMono : MonoBehaviour
         Selected = true;
         background.color = selectedColor;
         PlayerMono.instance.SelectCard(this);
-        if (card.selfActivate)
-        {
-            Activate(PlayerMono.instance, null);
-        }
     }
     public void Deselect()
     {
