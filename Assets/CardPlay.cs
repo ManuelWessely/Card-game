@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class CardPlay 
 {
-    public Card card;
+    public CardInformation card;
     public IEffectPlayer effectPlayer;
     public IEffectReciever effectReciever;
 
-    public CardPlay(Card card, IEffectPlayer effectPlayer, IEffectReciever effectReciever)
+    public CardPlay(CardInformation card, IEffectPlayer effectPlayer, IEffectReciever effectReciever)
     {
         this.card = card;
         this.effectPlayer = effectPlayer;
@@ -18,6 +18,6 @@ public class CardPlay
 
     public void Activate()
     {
-        card.Activate(effectPlayer, effectReciever);
+        //card.Activate(effectPlayer, effectReciever);
     }
 }

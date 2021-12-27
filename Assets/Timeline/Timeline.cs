@@ -11,21 +11,10 @@ public class Timeline : MonoBehaviour
     [ReadOnly]
     public RectTransform[] timelineKnobs;
     public TimelineAgent cursor;
+    public List<EnemyTimelineAgent> enemies;
 
     private int segments;
-    [ShowInInspector,MinValue(1)]
-    public int Segments
-    {
-        get
-        {
-            return segments;
-        }
-        set
-        {
-            segments = value;
-            CreateSegments(segments);
-        }
-    }
+
 
     public void MoveCursor(int i)
     {
@@ -34,6 +23,7 @@ public class Timeline : MonoBehaviour
 
     public void CreateSegments(int segments)
     {
+        this.segments = segments;
         if (timeLineKnobPrefab == null) return;
         if (timelineKnobs!=null)
         {
@@ -62,5 +52,22 @@ public class Timeline : MonoBehaviour
             timelineKnobs[i].anchoredPosition = new Vector2((float)i/segments * width, 0);
         }
     }
-    
+
+    public void RemoveAllEnemies()
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            Destroy(enemies[i].gameObject);
+        }
+        enemies = new List<EnemyTimelineAgent>();
+    }
+
+    public void Add(EnemyMono enemy, int value)
+    {
+        EnemyTimelineAgent item = Instantiate(enemy.timelineAgent, transform);
+        item.SetPosition((float)value / segments);
+        item.numberText.text = enemy.index.ToString();
+        enemies.Add(item);
+
+    }
 }

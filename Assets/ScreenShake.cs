@@ -49,4 +49,8 @@ public class ScreenShake : MonoBehaviour
         transform.position = startPostion + Vector3.left * 2;
         CameraShaker.Instance.Shake(CameraShakePresets.SmallExplosion);
     }
+    public void Heal()
+    {
+
+    }
 }

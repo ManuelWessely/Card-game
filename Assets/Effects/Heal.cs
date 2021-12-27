@@ -9,6 +9,12 @@ public class Heal : Effect
     public async Task Activate(IEffectPlayer player, IEffectReciever enemy)
     {
         player.Heal(amount);
+        if (player is PlayerMono)
+        {
+            Debug.Log("Attack");
+            ScreenShake.instance.Heal();
+            await IconDisplayer.instance.HealPlayer();
+        }
     }
 
     public string GetDescription()

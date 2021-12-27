@@ -11,33 +11,17 @@ public class CardMono : MonoBehaviour
 {
     public TextMeshProUGUI titleText, descriptionText;
     public Button button;
-    public Card card;
     public Color defaultColor, selectedColor;
-    public Image background, cardRim, icon;
+    public Image background;
+    public CardInformation cardInformation;
     [ShowInInspector]
     public bool Selected { get; private set; }
     [Button]
     public void Init()
     {
+        titleText.text = cardInformation.card.title;
+        descriptionText.text = cardInformation.card.GetDescription();
         button.onClick.AddListener(() => ToggleSelection());
-        cardRim.color = card.primaryColor;
-        descriptionText.color = card.primaryColor;
-        titleText.color = card.primaryColor;
-        icon.color = card.primaryColor;
-        icon.sprite = card.icon;
-
-        Rect rect = card.icon.rect;
-        if (rect.height<=rect.width)
-        {
-            icon.rectTransform.sizeDelta = new Vector2(100, rect.height / rect.width *100);
-        }
-        else
-        {
-            icon.rectTransform.sizeDelta = new Vector2(rect.width/rect.height*100, 100);
-
-        }
-        titleText.text = card.title;
-        descriptionText.text = card.GetDescription();
     }
     public void Select()
     {
@@ -55,13 +39,13 @@ public class CardMono : MonoBehaviour
 
     public void Activate(IEffectPlayer player, IEffectReciever enemy)
     {
-        card.Activate(player, enemy);
+        //card.Activate(player, enemy);
         Discard();
     }
 
     public void Discard()
     {
-        CardManager.instance.DiscardCard(this);
+        //CardManager.instance.DiscardCard(this);
     }
 
     public void ToggleSelection()
@@ -76,5 +60,5 @@ public class CardMono : MonoBehaviour
         }
 
     }
-    
+
 }

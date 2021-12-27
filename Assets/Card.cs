@@ -13,8 +13,8 @@ public class Card : SerializedScriptableObject
     [ShowInInspector]
     [TypeFilter("GetFilteredTypeList")]
     public Effect[] effects;
-    public Color primaryColor;
-    public Sprite icon;
+    public int prepareTime;
+
 
     public string GetDescription()
     {

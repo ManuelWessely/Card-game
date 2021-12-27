@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 713feb2ffff278947a205b33537ec672, type: 3}
-  m_Name: HealCard
+  m_Name: Attack
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -29,8 +29,8 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Heal, Assembly-CSharp
-    - Name: amount
+      Data: 1|Attack, Assembly-CSharp
+    - Name: damage
       Entry: 3
       Data: 10
     - Name: 
@@ -42,7 +42,5 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  title: Heal
-  selfActivate: 1
-  primaryColor: {r: 0.24934378, g: 0.745283, b: 0, a: 1}
-  icon: {fileID: 21300000, guid: 2f2977cc0584e084d9b9410867af09d4, type: 3}
+  title: Attack
+  prepareTime: 1

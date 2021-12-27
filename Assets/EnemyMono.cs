@@ -16,34 +16,40 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReciever
     public int maxHp;
     [ReadOnly]
     public int hp;
-    [ShowInInspector]
-    [TypeFilter("GetFilteredTypeList")]
-    public Effect[] effects;
-    public Effect selectedEffect;
 
-    public void Prepare()
-    {
-        selectedEffect = SelectEffect();
-        actionText.text = selectedEffect.GetDescription();
+    public int index;
+    public TextMeshProUGUI indexText;
+    public EnemyTimelineAgent timelineAgent;
 
-    }
-    public Effect SelectEffect()
+    public Card[] cards;
+
+    private CardInformation cardInformation;
+    public bool Activate()
     {
-        return effects[UnityEngine.Random.Range(0, effects.Length)];
-    }
-    public IEnumerable<Type> GetFilteredTypeList()
-    {
-        var q = typeof(Effect).Assembly.GetTypes()
-            .Where(x => !x.IsAbstract)
-            .Where(x => !x.IsGenericTypeDefinition)
-            .Where(x => typeof(Effect).IsAssignableFrom(x));
-        return q;
+        if (cardInformation==null)
+        {
+            var rnd = new System.Random();
+            cardInformation = new CardInformation();
+            cardInformation.card = cards[rnd.Next(cards.Length)];
+            cardInformation.effectPlayer = this;
+            cardInformation.effectReciever = PlayerMono.instance;
+        }
+
+        cardInformation.Activate();
+        if (cardInformation.IsPrepared)
+        {
+            cardInformation = null;
+            actionText.text = "";
+            return true;
+
+        }
+        else
+        {
+            actionText.text = cardInformation.card.GetDescription();
+            return false;
+        }
     }
 
-    public Task Activate(EnemyMono enemy, PlayerMono player)
-    {
-        return selectedEffect.Activate(enemy, player);
-    }
 
     public void DealDamage(int damage)
     {
@@ -78,10 +84,7 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReciever
         healthBar.SetHealth(hp, maxHp);
     }
 
-    public Task Activate()
-    {
-        return Activate(this, PlayerMono.instance);
-    }
+
 
     private void OnMouseDown()
     {

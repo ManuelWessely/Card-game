@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IEffectPlayer
 {
     void Heal(int amount);
-    public Vector3 GetPosition();
+     Vector3 GetPosition();
 }

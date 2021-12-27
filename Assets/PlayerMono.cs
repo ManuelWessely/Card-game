@@ -62,16 +62,21 @@ public class PlayerMono : MonoBehaviour, IEffectPlayer, IEffectReciever
     {
         if (selectedCard)
         {
-            RoundManager.instance.playerCard=new CardPlay(selectedCard.card, this, enemy);
-            Destroy(selectedCard.gameObject);
+            selectedCard.cardInformation.effectPlayer = this;
+            selectedCard.cardInformation.effectReciever = enemy;
+            RoundManager.instance.playerCard=selectedCard.cardInformation;
+            CardManager.instance.DiscardCard(selectedCard);
         }
     }
     private void OnMouseDown()
     {
         if (selectedCard)
         {
-            RoundManager.instance.playerCard = new CardPlay(selectedCard.card, this, this);
-            Destroy(selectedCard.gameObject);
+            selectedCard.cardInformation.effectPlayer = this;
+            selectedCard.cardInformation.effectReciever = this;
+            RoundManager.instance.playerCard = selectedCard.cardInformation;
+            CardManager.instance.DiscardCard(selectedCard);
+
         }
     }
 

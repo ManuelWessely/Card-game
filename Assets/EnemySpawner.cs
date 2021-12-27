@@ -11,7 +11,7 @@ public class EnemySpawner : MonoBehaviour
     [ShowInInspector, ReadOnly]
     bool[] spotsOccupied;
     [ShowInInspector,ReadOnly]
-    private EnemyMono[] enemies;
+    public EnemyMono[] enemies;
 
     public EnemyMono[] spawnableEnemies;
     public static EnemySpawner instance;
@@ -23,29 +23,7 @@ public class EnemySpawner : MonoBehaviour
         enemies = new EnemyMono[spawnPoints.Length];
     }
 
-    public void PrepareEnemies()
-    {
-        foreach (var item in enemies)
-        {
-            if (item)
-            {
-                item.Prepare();
-    
-            }
-        }
-    }
 
-    public async Task ActivateEnemies()
-    {
-        foreach (var item in enemies)
-        {
-            if (item)
-            {
-               await item.Activate();
-
-            }
-        }
-    }
 
     [Button]
     public void SpawnEnemies(int number)
@@ -55,6 +33,8 @@ public class EnemySpawner : MonoBehaviour
             if (TryOccupySpot(out int index))
             {
                 enemies[index] = SpawnEnemy(index);
+                enemies[index].index = index;
+                enemies[index].indexText.text = index.ToString();
             }
             else
             {
