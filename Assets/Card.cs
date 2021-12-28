@@ -25,7 +25,7 @@ public class Card : SerializedScriptableObject
         }
         return s;
     }
-    public void Activate(IEffectPlayer player, IEffectReciever enemy)
+    public void Activate(Actor player, IEffectReciever enemy)
     {
         foreach (var item in effects)
         {

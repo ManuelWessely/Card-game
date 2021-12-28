@@ -6,5 +6,5 @@ using UnityEngine;
 public interface Effect 
 {
     string GetDescription();
-    Task Activate(IEffectPlayer player, IEffectReciever enemy);
+    Task Activate(Actor player, IEffectReciever enemy);
 }

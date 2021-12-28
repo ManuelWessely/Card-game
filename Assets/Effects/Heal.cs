@@ -6,15 +6,20 @@ using UnityEngine;
 public class Heal : Effect
 {
     public int amount;
-    public async Task Activate(IEffectPlayer player, IEffectReciever enemy)
+    public async Task Activate(Actor player, Actor enemy)
     {
         player.Heal(amount);
         if (player is PlayerMono)
         {
-            Debug.Log("Attack");
             ScreenShake.instance.Heal();
             await IconDisplayer.instance.HealPlayer();
         }
+    }
+
+    public Task Activate(Actor player, IEffectReciever enemy)
+    {
+        return Activate(player, enemy as Actor);
+
     }
 
     public string GetDescription()

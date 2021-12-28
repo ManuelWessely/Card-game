@@ -8,7 +8,7 @@ using UnityEngine;
 public class CardInformation
 {
     public Card card;
-    public IEffectPlayer effectPlayer;
+    public Actor effectPlayer;
     public IEffectReciever effectReciever;
     private int elapsedPrepareTime;
     public bool IsPrepared

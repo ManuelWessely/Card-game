@@ -52,6 +52,7 @@ public class EnemySpawner : MonoBehaviour
     public void EnemyDied(EnemyMono enemyMono)
     {
         var index=Array.FindIndex(enemies, x => x == enemyMono);
+        Timeline.instance.RemoveEnemy(enemyMono);
         FreeSpot(index);
         Destroy(enemyMono.gameObject);
     }

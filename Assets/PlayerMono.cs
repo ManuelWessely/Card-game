@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerMono : MonoBehaviour, IEffectPlayer, IEffectReciever
+public class PlayerMono : MonoBehaviour, Actor
 {
     public static PlayerMono instance;
     public int hp, maxHp;
@@ -85,5 +85,10 @@ public class PlayerMono : MonoBehaviour, IEffectPlayer, IEffectReciever
     public Vector3 GetPosition()
     {
         return Vector3.zero;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }

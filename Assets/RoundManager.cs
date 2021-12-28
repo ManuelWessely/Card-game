@@ -26,6 +26,10 @@ public class RoundManager : MonoBehaviour
 
         timeline.CreateSegments(6);
         EnemySpawner.instance.SpawnEnemies(3);
+        List<Transform> transforms = new List<Transform>();
+        transforms.AddRange(EnemySpawner.instance.enemies.Select(x=>x.transform));
+        transforms.Add(PlayerMono.instance.transform.parent);
+        CharacterPositioning.instance.RandomlyPlace(transforms);
         StartCoroutine(GameCoroutine());
     }
 

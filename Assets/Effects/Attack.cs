@@ -6,7 +6,7 @@ using UnityEngine;
 public class Attack : Effect
 {
     public int damage;
-    public async Task Activate(IEffectPlayer player, IEffectReciever enemy)
+    public async Task Activate(Actor player, Actor enemy)
     {
         enemy.DealDamage(damage);
         if (enemy is PlayerMono)
@@ -20,6 +20,11 @@ public class Attack : Effect
             ScreenShake.instance.PlayerAttack();
             IconDisplayer.instance.PlayerAttack();
         }
+    }
+
+    public Task Activate(Actor player, IEffectReciever enemy)
+    {
+        return Activate(player, enemy as Actor);
     }
 
     public string GetDescription()

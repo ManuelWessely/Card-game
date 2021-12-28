@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReciever
+public class EnemyMono : SerializedMonoBehaviour, Actor
 {
 
     public LazyHealthbar healthBar;
@@ -20,19 +20,19 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReciever
     public int index;
     public TextMeshProUGUI indexText;
     public EnemyTimelineAgent timelineAgent;
-
-    public Card[] cards;
-
+    public EnemyBehavior enemyBehavior;
     private CardInformation cardInformation;
+    private bool dead;
+
     public bool Activate()
     {
+        if (dead)
+        {
+            return true;
+        }
         if (cardInformation==null)
         {
-            var rnd = new System.Random();
-            cardInformation = new CardInformation();
-            cardInformation.card = cards[rnd.Next(cards.Length)];
-            cardInformation.effectPlayer = this;
-            cardInformation.effectReciever = PlayerMono.instance;
+            cardInformation = enemyBehavior.GetCardInformation(this);
         }
 
         cardInformation.Activate();
@@ -64,6 +64,7 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReciever
 
     private void Die()
     {
+        dead = true;
         EnemySpawner.instance.EnemyDied(this);
         Instantiate(deathParticles, transform.position, transform.rotation);
     }
@@ -105,5 +106,18 @@ public class EnemyMono : SerializedMonoBehaviour, IEffectPlayer, IEffectReciever
     private void Awake()
     {
         hp = maxHp;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+    public IEnumerable<Type> GetBehaviorList()
+    {
+        var q = typeof(EnemyBehavior).Assembly.GetTypes()
+            .Where(x => !x.IsAbstract)
+            .Where(x => !x.IsGenericTypeDefinition)
+            .Where(x => typeof(EnemyBehavior).IsAssignableFrom(x));
+        return q;
     }
 }

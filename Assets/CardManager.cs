@@ -21,6 +21,7 @@ public class CardManager : SerializedMonoBehaviour
         {
             drawPile.Push(item);
         }
+        ShuffleDrawPile();
     }
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class CardManager : SerializedMonoBehaviour
         {
             drawPile.Push(discardPile.Pop());
         }
+        ShuffleDrawPile();
     }
     public void DiscardCard(CardMono cardMono)
     {

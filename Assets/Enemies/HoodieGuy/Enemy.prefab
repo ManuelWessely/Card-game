@@ -528,7 +528,13 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: enemyBehavior
+      Entry: 7
+      Data: 0|HoodieGuyBehavior, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
   healthBar: {fileID: 6150217527403778826}
   actionText: {fileID: 746501349}
   deathParticles: {fileID: 5524661839764771099, guid: e346831999b3ed345b14f40b2f3ec113, type: 3}
@@ -537,8 +543,6 @@ MonoBehaviour:
   index: 0
   indexText: {fileID: 8190250743098464890}
   timelineAgent: {fileID: 3657648205443475512, guid: c91eadc44ad337e49ac33ee1f290f04b, type: 3}
-  cards:
-  - {fileID: 11400000, guid: e647b480abe8d0840abdd30fa95306fc, type: 2}
 --- !u!1 &6013906725389135179
 GameObject:
   m_ObjectHideFlags: 0

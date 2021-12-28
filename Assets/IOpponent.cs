@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEffectReciever
+public interface IOpponent :IEffectReciever
 {
+    void DealDamage(int damage);
+
 }
